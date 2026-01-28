@@ -5,9 +5,9 @@ from pathlib import Path
 # ==============================
 # CONFIGURAÇÃO
 # ==============================
-
-INPUT_DIR = r"C:\Users\escri\Documents\Repositorio\convertdoctodocx\import"   # pasta com .doc
-OUTPUT_DIR = r"C:\Users\escri\Documents\Repositorio\convertdoctodocx\output"   # pasta para .docx
+FULL_LOCAL_DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT_DIR = r"\import"   # pasta com .doc
+OUTPUT_DIR = r"\output"   # pasta para .docx
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -23,7 +23,8 @@ word.DisplayAlerts = 0  # evita popups
 # CONVERSÃO
 # ==============================
 
-docs = list(Path(INPUT_DIR).glob("*.doc"))
+docs = list(Path(FULL_LOCAL_DIR+INPUT_DIR).glob("*"))
+print(f"{Path(FULL_LOCAL_DIR+INPUT_DIR)} ")
 
 if not docs:
     print("⚠️ Nenhum arquivo .doc encontrado")
@@ -34,7 +35,7 @@ else:
 
             doc = word.Documents.Open(str(doc_path))
 
-            output_path = Path(OUTPUT_DIR) / (doc_path.stem + ".docx")
+            output_path = Path(FULL_LOCAL_DIR+OUTPUT_DIR) / (doc_path.stem + ".docx")
 
             # 16 = wdFormatXMLDocument (.docx)
             doc.SaveAs(str(output_path), FileFormat=16)
